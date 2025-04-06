@@ -1,4 +1,4 @@
-# practice
+# SeeStyle
 
 A new Flutter project.
 
