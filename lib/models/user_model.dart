@@ -13,5 +13,13 @@ class User {
   @HiveField(2)
   final String password;
 
-  User({required this.fullName, required this.email, required this.password});
+  @HiveField(3) // New field for admin role
+  final bool isAdmin;
+
+  User({
+    required this.fullName,
+    required this.email,
+    required this.password,
+    this.isAdmin = false, // Default is false for regular users
+  });
 }

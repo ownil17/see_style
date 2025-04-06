@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../models/user_model.dart';
 import 'home_page.dart';
+import '../pages/admin/admin_dashboard.dart'; // Import Admin Dashboard
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -27,7 +28,6 @@ class _LoginPageState extends State<LoginPage> {
 
     var usersBox = Hive.box<User>('users');
 
-    // Check if user exists
     User? foundUser;
     for (var user in usersBox.values) {
       if (user.email == email) {
@@ -43,17 +43,23 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    // Validate password
     if (foundUser.password == password) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Login Successful!")),
       );
 
-      // Navigate to HomePage
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
+      // Redirect based on role
+      if (foundUser.isAdmin) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const AdminDashboard()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Incorrect password!")),
@@ -78,15 +84,9 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               const Text(
                 "Log In",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               const SizedBox(height: 30),
-
-              // Email Field
               TextField(
                 controller: _emailController,
                 style: const TextStyle(color: Colors.white),
@@ -102,8 +102,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 15),
-
-              // Password Field
               TextField(
                 controller: _passwordController,
                 obscureText: true,
@@ -120,8 +118,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 30),
-
-              // Login Button
               SizedBox(
                 width: 200,
                 child: ElevatedButton(

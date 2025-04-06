@@ -1,41 +1,47 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_model.dart';
+part of 'appointment_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class UserAdapter extends TypeAdapter<User> {
+class AppointmentAdapter extends TypeAdapter<Appointment> {
   @override
-  final int typeId = 0;
+  final int typeId = 2;
 
   @override
-  User read(BinaryReader reader) {
+  Appointment read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return User(
-      fullName: fields[0] as String,
-      email: fields[1] as String,
-      password: fields[2] as String,
-      isAdmin: fields[3] as bool,
+    return Appointment(
+      id: fields[0] as String,
+      patientName: fields[1] as String,
+      patientEmail: fields[2] as String,
+      date: fields[3] as DateTime,
+      time: fields[4] as String,
+      status: fields[5] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, User obj) {
+  void write(BinaryWriter writer, Appointment obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.fullName)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.email)
+      ..write(obj.patientName)
       ..writeByte(2)
-      ..write(obj.password)
+      ..write(obj.patientEmail)
       ..writeByte(3)
-      ..write(obj.isAdmin);
+      ..write(obj.date)
+      ..writeByte(4)
+      ..write(obj.time)
+      ..writeByte(5)
+      ..write(obj.status);
   }
 
   @override
@@ -44,7 +50,7 @@ class UserAdapter extends TypeAdapter<User> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserAdapter &&
+      other is AppointmentAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

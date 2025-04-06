@@ -1,32 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:practice/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 import 'models/user_model.dart';
-import 'intro_page.dart'; // Import your IntroPage
+import 'models/product_model.dart';
+import 'models/appointment_model.dart';
+import 'providers/cart_provider.dart';
+import 'providers/product_provider.dart';
+import 'providers/appointment_provider.dart'; // Import AppointmentProvider
+import 'pages/intro_page.dart';
+
 
 void main() async {
-  // Ensure Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize Hive
   await Hive.initFlutter();
 
-  // Register the User Adapter
+  // Register Hive Adapters
   Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(ProductAdapter());
+  Hive.registerAdapter(AppointmentAdapter());
 
-  // Open Hive box for users
-  await Hive.openBox<User>('users');
+  // Open Hive Boxes
+  var usersBox = await Hive.openBox<User>('users');
+  await Hive.openBox<Product>('products');
+  await Hive.openBox<Appointment>('appointments');
 
-    runApp(
+  // Force-create Admin account if not exists
+  bool adminExists = usersBox.values.any((user) => user.isAdmin);
+  if (!adminExists) {
+    usersBox.put("admin", User(
+      fullName: "Admin",
+      email: "admin@clinic.com",
+      password: "admin123",
+      isAdmin: true,
+    ));
+  }
+
+  runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => CartProvider()),
+        ChangeNotifierProvider(create: (context) => ProductProvider()),
+        ChangeNotifierProvider(create: (context) => AppointmentProvider()),
       ],
       child: const MyApp(),
     ),
   );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -35,7 +55,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const IntroPage(), // Show IntroPage first
+      home: const IntroPage(),
     );
   }
 }

@@ -11,23 +11,25 @@ class CartPage extends StatelessWidget {
     final cartItems = cartProvider.cartItems;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Cart"),
+        title: const Text("Favorites"),
         backgroundColor: Colors.white,
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: cartItems.isEmpty
-          ? const Center(child: Text("Your cart is empty"))
+          ? const Center(child: Text("You do not have a favorite yet"))
           : ListView.builder(
               itemCount: cartItems.length,
               itemBuilder: (context, index) {
                 final item = cartItems[index];
                 return Card(
+                  color: Colors.white,
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
                     title: Text(item.name),
-                    subtitle: Text("\$${(item.price * item.quantity).toStringAsFixed(2)}"),
+                    subtitle: Text("\₱${(item.price * item.quantity).toStringAsFixed(2)}"),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

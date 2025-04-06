@@ -17,6 +17,7 @@ class ItemDetailsPage extends StatelessWidget {
     final cartProvider = Provider.of<CartProvider>(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(itemName),
         backgroundColor: Colors.white,
@@ -43,7 +44,7 @@ class ItemDetailsPage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              "\$${itemPrice.toStringAsFixed(2)}",
+              "\₱${itemPrice.toStringAsFixed(2)}",
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green),
             ),
             const SizedBox(height: 20),
@@ -51,7 +52,7 @@ class ItemDetailsPage extends StatelessWidget {
               onPressed: () {
                 cartProvider.addToCart(itemName, itemPrice);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Item added to cart!")),
+                  const SnackBar(content: Text("Item added to favorites!")),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -59,7 +60,7 @@ class ItemDetailsPage extends StatelessWidget {
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
               ),
-              child: const Text("Add to Cart"),
+              child: const Text("Favorite"),
             ),
           ],
         ),

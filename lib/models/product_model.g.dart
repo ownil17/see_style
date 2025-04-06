@@ -1,41 +1,44 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_model.dart';
+part of 'product_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class UserAdapter extends TypeAdapter<User> {
+class ProductAdapter extends TypeAdapter<Product> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  User read(BinaryReader reader) {
+  Product read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return User(
-      fullName: fields[0] as String,
-      email: fields[1] as String,
-      password: fields[2] as String,
-      isAdmin: fields[3] as bool,
+    return Product(
+      id: fields[0] as String,
+      name: fields[1] as String,
+      price: fields[2] as double,
+      description: fields[3] as String,
+      imageUrl: fields[4] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, User obj) {
+  void write(BinaryWriter writer, Product obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.fullName)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.email)
+      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.password)
+      ..write(obj.price)
       ..writeByte(3)
-      ..write(obj.isAdmin);
+      ..write(obj.description)
+      ..writeByte(4)
+      ..write(obj.imageUrl);
   }
 
   @override
@@ -44,7 +47,7 @@ class UserAdapter extends TypeAdapter<User> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserAdapter &&
+      other is ProductAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
